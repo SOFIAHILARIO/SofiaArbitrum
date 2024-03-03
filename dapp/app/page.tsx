@@ -100,153 +100,136 @@ export default function Home() {
   };
 
   return (
-    <main
+<main style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh", backgroundImage: `url('https://wallpapers.com/images/featured/sakura-pc-xpjoihhwfmmleuiu.webp')`, backgroundSize: "cover", backgroundPosition: "center" }}>
+  <style jsx>{`
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px 5px #45f3ff; }
+      50% { box-shadow: 0 0 10px 5px #ff6347; }
+    }
+    .glowing-box {
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 80px 70px;
+      margin: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, #FFB3C6, #FFFFFF);
+      border-radius: 10px;
+      animation: glow 2s infinite alternate;
+      opacity: 0.9;
+      color: #ff69b4;
+    }
+    .action-button {
+      padding: 0.75rem;
+      backgroundImage: "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')";
+      backgroundSize: "cover";
+      backgroundPosition: "center";
+      color: #fff;
+      borderRadius: 0.25rem;
+      fontWeight: "bold";
+    }
+  `}</style>
+
+  <div className="glowing-box">
+    <button
+      onClick={() => connectWallet()}
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        backgroundImage: `url('https://wallpapers.com/images/featured/sakura-pc-xpjoihhwfmmleuiu.webp')`,
+        padding: "0.75rem",
+        backgroundImage:
+          "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        color: "#fff",
+        borderRadius: "0.25rem",
+        fontWeight: "bold",
       }}
     >
-      <style jsx>{`
-        @keyframes glow {
-          0% {
-            box-shadow: 0 0 10px 5px #45f3ff;
-          }
-          50% {
-            box-shadow: 0 0 10px 5px #ff6347;
-          }
-          100% {
-            box-shadow: 0 0 10px 5px #45f3ff;
-          }
-        }
+      {walletKey !== "" ? walletKey : " Connect wallet"}
+    </button>
 
-        .glowing-box {
-          position: relative;
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          padding: 80px 70px;
-          margin: 20px;
-          text-align: center;
-          background: linear-gradient(90deg, #FFB3C6, #FFFFFF);
-          border-radius: 10px;
-          animation: glow 2s infinite alternate;
-          opacity: 0.9;
-          color: #ff69b4;
-        }
-      `}</style>
-
-      <div className="glowing-box">
-        <button
-          onClick={() => {
-            connectWallet();
-          }}
-          style={{
-            padding: "0.75rem",
-            backgroundImage:
-              "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            color: "#fff",
-            borderRadius: "0.25rem",
-            fontWeight: "bold",
-          }}
-        >
-          {walletKey !== "" ? walletKey : " Connect wallet"}
-        </button>
-
-        <div>
-          <br></br>
-          <form>
-            <label>Mint Amount</label>
-            <br></br>
-          </form>
-          <input
-            type="text"
-            value={mintingAmount}
-            onChange={(e) => mintAmountChange(e)}
-            style={{ color: "black", marginRight: "20px" }}
-            placeholder="Mint Here "
-          />
-          <button
-            onClick={() => {
-              mintCoin();
-            }}
-            style={{
-              padding: "0.75rem",
-              backgroundImage:
-                "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              color: "#fff",
-              borderRadius: "0.25rem",
-              width: "140px",
-              fontWeight: "bold",
-            }}
-          >
-            {"Mint Token"}
-          </button>
-        </div>
-
+    <div>
+      <br></br>
+      <form>
+        <label>Mint Amount</label>
         <br></br>
+      </form>
+      <input
+        type="text"
+        value={mintingAmount}
+        onChange={(e) => mintAmountChange(e)}
+        style={{ color: "black", marginRight: "20px" }}
+        placeholder="Mint Here "
+      />
+      <button
+        onClick={() => mintCoin()}
+        style={{
+          padding: "0.75rem",
+          backgroundImage:
+            "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "#fff",
+          borderRadius: "0.25rem",
+          width: "140px",
+          fontWeight: "bold",
+        }}
+      >
+        {"Mint Token"}
+      </button>
+    </div>
 
-        <div>
-          <form>
-            <label> Stake Amount</label>
-            <br></br>
-          </form>
-          <input
-            type="text"
-            value={stakingAmount}
-            onChange={(e) => stakeAmountChange(e)}
-            style={{ color: "Black", marginRight: "20px" }}
-            placeholder="Stake Here"
-          />
+    <br></br>
 
-          <button
-            onClick={() => {
-              stakeCoin();
-            }}
-            style={{
-              padding: "0.75rem",
-              backgroundImage:
-                "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              color: "#fff",
-              borderRadius: "0.25rem",
-              width: "140px",
-              fontWeight: "bold",
-            }}
-          >
-            {"Stake Token"}
-          </button>
-        </div>
+    <div>
+      <form>
+        <label> Stake Amount</label>
+        <br></br>
+      </form>
+      <input
+        type="text"
+        value={stakingAmount}
+        onChange={(e) => stakeAmountChange(e)}
+        style={{ color: "Black", marginRight: "20px" }}
+        placeholder="Stake Here"
+      />
 
-        <div>
-          <br></br>
-          <button
-            onClick={() => {
-              withdrawCoin();
-            }}
-            style={{
-              padding: "0.75rem",
-              backgroundImage:
-                "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              color: "#fff",
-              borderRadius: "0.25rem",
-              fontWeight: "bold",
-            }}
-          >
-            {"Withdraw"}
-          </button>
-        </div>
-      </div>
-    </main>
+      <button
+        onClick={() => stakeCoin()}
+        style={{
+          padding: "0.75rem",
+          backgroundImage:
+            "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "#fff",
+          borderRadius: "0.25rem",
+          width: "140px",
+          fontWeight: "bold",
+        }}
+      >
+        {"Stake Token"}
+      </button>
+    </div>
+
+    <div>
+      <br></br>
+      <button
+        onClick={() => withdrawCoin()}
+        style={{
+          padding: "0.75rem",
+          backgroundImage:
+            "url('https://i.pinimg.com/564x/69/a9/cb/69a9cbce372d6d83dffcff14731491a9.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "#fff",
+          borderRadius: "0.25rem",
+          fontWeight: "bold",
+        }}
+      >
+        {"Withdraw"}
+      </button>
+    </div>
+  </div>
+</main>
+
   );
 }
