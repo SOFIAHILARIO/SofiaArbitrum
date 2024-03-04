@@ -6,67 +6,65 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract FiaTok is ERC20, Ownable {
 
-    mapping(address => uint256) private _stakes;
-    mapping(address => uint256) private _lastStakeTimestamp;
-    uint256 private _rewardRate = 1;
-    uint256 private lockInPeriod = 60; //1 min
+    mapping(address => uint256) private customStakes;
+    mapping(address => uint256) private customstakeTimestamps;
+    uint256 private _rewardRate = 5;
+    uint256 private lockInPeriod = 60;
 
     constructor(address initialOwner) 
         ERC20("FiaTok", "FIA") 
         Ownable(initialOwner)
     {}
 
-    function mint(address to, uint256 amount) public {
-        uint256 adjustedAmount = amount * 1e18;
-        _mint(to, adjustedAmount);
+    function minthere(address to, uint256 amount) public {
+        uint256 customAmount = amount * 1e18;
+        _mint(to, customAmount);
     }
 
-    function stake(uint256 amount) public {
-        uint256 adjustedAmount = amount * 1e18;
+    function stakehere(uint256 amount) public {
+        uint256 customAmount = amount * 1e18;
 
-        require(adjustedAmount > 0, "Cannot stake 0 tokens");
-        require(balanceOf(msg.sender) >= adjustedAmount, "Insufficient balance");
+        require(customAmount > 0, "Staking is not possible with zero tokens");
+        require(balanceOf(msg.sender) >= customAmount, "The balance is below the required amount");
 
-        _stakes[msg.sender] += adjustedAmount;
-        _lastStakeTimestamp[msg.sender] = block.timestamp;
-        _transfer(msg.sender, address(this), adjustedAmount);
+        customStakes[msg.sender] += customAmount;
+        customstakeTimestamps[msg.sender] = block.timestamp;
+        _transfer(msg.sender, address(this), customAmount);
   }
 
     function getStake(address account) public view returns (uint256) {
-        uint256 stakedInWei = _stakes[account];
+        uint256 stakedInWei = customStakes[account];
         uint256 stakedInEth = stakedInWei / 1e18;
         return stakedInEth;
   }
 
-    function withdraw() public {
-        require(block.timestamp > (_lastStakeTimestamp[msg.sender] + lockInPeriod), "You cannot withdraw funds, you are still in the lock in period");
-        require(_stakes[msg.sender] > 0, "No staked tokens");
+    function withdrawhere() public {
+        require(block.timestamp > (customstakeTimestamps[msg.sender] + lockInPeriod), "It is not allowed to access or retrieve funds while still within the stipulated lock-in period");
+        require(customStakes[msg.sender] > 0, "No tokens have been placed in the staking process");
 
-        uint256 stakedAmount = _stakes[msg.sender];
-        uint256 reward = ((block.timestamp - _lastStakeTimestamp[msg.sender]) * _rewardRate) * 1e18;
+        uint256 stakedAmount = customStakes[msg.sender];
+        uint256 reward = ((block.timestamp - customstakeTimestamps[msg.sender]) * _rewardRate) * 1e18;
 
-        _stakes[msg.sender] = 0;
+        customStakes[msg.sender] = 0;
         _transfer(address(this), msg.sender, stakedAmount);
         _mint(msg.sender, reward);
   }
 
-    function getWithdraw(address account) public view returns (uint256) {
-        uint256 stakedAmount = _stakes[msg.sender] / 1e18;
-        uint256 reward = ((block.timestamp - _lastStakeTimestamp[account]) * _rewardRate);
+    function getWithdrawHere(address account) public view returns (uint256) {
+        uint256 stakedAmount = customStakes[msg.sender] / 1e18;
+        uint256 reward = ((block.timestamp - customstakeTimestamps[account]) * _rewardRate);
 
         uint256 total = reward + stakedAmount; 
         return total;
   }
 
      function getElapsedStakeTime(address account) public view returns (uint256) {
-        uint256 time = (block.timestamp - _lastStakeTimestamp[account]);
+        uint256 time = (block.timestamp - customstakeTimestamps[account]);
         return time;
   } 
 
-    function getLastStakeTimestamp(address account) public view returns (uint256) {
-        return _lastStakeTimestamp[account];
+    function getcustomstakeTimestamps(address account) public view returns (uint256) {
+        return customstakeTimestamps[account];
   }
-
-
-    
+ 
 }

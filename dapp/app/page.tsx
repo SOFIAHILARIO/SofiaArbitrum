@@ -33,7 +33,7 @@ export default function Home() {
     const contract = getContract(signer);
 
     try {
-      const tx = await contract.mint(signer, mintingAmount);
+      const tx = await contract.minthere(signer, mintingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
@@ -62,7 +62,7 @@ export default function Home() {
     const contract = getContract(signer);
 
     try {
-      const tx = await contract.stake(stakingAmount);
+      const tx = await contract.stakehere(stakingAmount);
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
@@ -89,7 +89,7 @@ export default function Home() {
     const contract = getContract(signer);
 
     try {
-      const tx = await contract.withdraw();
+      const tx = await contract.withdrawhere();
       await tx.wait();
       setSubmitted(true);
       setTransactionHash(tx.hash);
